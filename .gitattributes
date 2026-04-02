@@ -1,0 +1,2 @@
+*.psd filter=lfs diff=lfs merge=lfs -text
+face_db/facenet_vggface2.pt filter=lfs diff=lfs merge=lfs -text
