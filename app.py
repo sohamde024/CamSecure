@@ -1,13 +1,3 @@
-"""
-CamSecure — 3D Modern Gate Security Dashboard
-===============================================
-Files needed in same folder:
-  camsecure_logo.png  — your logo
-  camsecure_cam.jpg   — camera photo
-  step3_run.py        — detection script
-
-Run : python -m streamlit run app.py
-"""
 
 import streamlit as st
 import streamlit.components.v1 as components
@@ -22,7 +12,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# ── Paths ──────────────────────────────────────────────────────────────────────
+# ── Paths ─────────────────────────────────────────────────────────────────────
 SCREENSHOTS_DIR = Path("screenshots")
 LOG_FILE        = Path("detection_log.txt")
 RUN_SCRIPT      = Path("run.py")
@@ -44,7 +34,6 @@ def _b64(path: Path, fmt: str, max_px: int) -> str:
         return ""
 
 
-# Keep each image tiny so no single st.markdown call exceeds ~40 KB
 LOGO_B64 = _b64(Path("CamSecure.png"), "PNG",  200)  # ~32 KB
 CAM_B64  = _b64(Path("CamSecure_logo.jpg"),  "JPEG", 240)  # ~7 KB
 
@@ -109,9 +98,7 @@ def fmt_ts(stem):
     except Exception: return stem
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# PURE CSS — no images embedded here, just styles
-# ══════════════════════════════════════════════════════════════════════════════
+# CSS 
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&family=Barlow:wght@300;400;500;600;700;800&display=swap');
@@ -481,9 +468,7 @@ cam_color = "#00ff80" if running else "#ff5070"
 cam_label = "LIVE MONITORING" if running else "OFFLINE"
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# NAV  — logo only here, no other image
-# ══════════════════════════════════════════════════════════════════════════════
+# NAV -------------------------------------
 nav_logo_html = (f'<img src="{LOGO_SRC}" style="height:46px;width:auto;"/>'
                  if LOGO_SRC else
                  '<span style="font-family:Orbitron,sans-serif;font-size:18px;'
@@ -502,14 +487,11 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# HERO  — no images embedded, cam card uses CSS-only preview
-# ══════════════════════════════════════════════════════════════════════════════
+# HERO --------------------------------------------------
 hero_logo_html = (f'<div class="cs-hero-logo-wrap"><img src="{LOGO_SRC}" '
                   f'alt="CamSecure"/></div>'
                   if LOGO_SRC else "")
 
-# cam card preview: if image available embed it; otherwise icon-only
 if CAM_SRC:
     cam_preview = (f'<img src="{CAM_SRC}" style="width:100%;height:160px;'
                    f'object-fit:cover;filter:brightness(.75) saturate(.55);display:block;"/>')
@@ -564,10 +546,7 @@ st.markdown(f"""
 
 st.markdown("<div style='height:48px'></div>", unsafe_allow_html=True)
 
-
-# ══════════════════════════════════════════════════════════════════════════════
-# STAT CARDS
-# ══════════════════════════════════════════════════════════════════════════════
+# STAT CARDS----------------------------------------
 st.markdown(f"""
 <div class="cs-stat-row">
   <div class="cs-card" style="animation-delay:0s">
@@ -603,10 +582,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-
-# ══════════════════════════════════════════════════════════════════════════════
-# FEATURE CARDS
-# ══════════════════════════════════════════════════════════════════════════════
+# FEATURE CARDS--------------------------------------
 st.markdown("""
 <div class="cs-features">
   <div class="cs-feat" style="animation-delay:.05s">
@@ -627,10 +603,8 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# STATUS BANNER-----------------------------------------------
 
-# ══════════════════════════════════════════════════════════════════════════════
-# STATUS BANNER
-# ══════════════════════════════════════════════════════════════════════════════
 if running and unknowns_total > 0:
     st.markdown(f"""
     <div class="cs-banner danger">
@@ -655,10 +629,7 @@ else:
            <div style="font-size:12px;opacity:.6;margin-top:2px">Click "Open Camera" below to begin gate monitoring.</div></div>
     </div>""", unsafe_allow_html=True)
 
-
-# ══════════════════════════════════════════════════════════════════════════════
-# CAMERA CONTROLS
-# ══════════════════════════════════════════════════════════════════════════════
+# CAMERA CONTROLS--------------------------------------------------------
 st.markdown("""
 <div class="cs-divider">
   <div class="cs-divider-line"></div>
@@ -714,10 +685,7 @@ else:
       are in the same folder as this app.
     </div>""", unsafe_allow_html=True)
 
-
-# ══════════════════════════════════════════════════════════════════════════════
-# ALERTS + LOG
-# ══════════════════════════════════════════════════════════════════════════════
+# ALERTS + LOG--------------------------------------------------
 st.markdown("""
 <div class="cs-divider">
   <div class="cs-divider-line"></div>
@@ -771,9 +739,8 @@ with right:
         </div>""", unsafe_allow_html=True)
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# SCREENSHOT GALLERY
-# ══════════════════════════════════════════════════════════════════════════════
+# SCREENSHOT GALLERY---------------------------------------------------
+
 st.markdown("""
 <div class="cs-divider">
   <div class="cs-divider-line"></div>
@@ -853,9 +820,7 @@ else:
     </div>""", unsafe_allow_html=True)
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# FOOTER  — logo only here
-# ══════════════════════════════════════════════════════════════════════════════
+# FOOTER ---------------------------------
 footer_logo = (f'<img src="{LOGO_SRC}" alt="CamSecure"/><br/>' if LOGO_SRC else "")
 st.markdown(f"""
 <div class="cs-footer">
